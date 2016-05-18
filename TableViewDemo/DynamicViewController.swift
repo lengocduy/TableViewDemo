@@ -48,17 +48,13 @@ class DynamicViewController: UIViewController {
         labelFooter.text = "Demo TableView Footer"
         tableView.tableFooterView = labelFooter
 	}
-
-	func makeAttributedString(title title: String, subtitle: String) -> NSAttributedString {
-		let titleAttributes = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline), NSForegroundColorAttributeName: UIColor.purpleColor()]
-		let subtitleAttributes = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)]
-		
-		let titleString = NSMutableAttributedString(string: "\(title)\n", attributes: titleAttributes)
-		let subtitleString = NSAttributedString(string: subtitle, attributes: subtitleAttributes)
-		
-		titleString.appendAttributedString(subtitleString)
-		
-		return titleString
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if let desVC = segue.destinationViewController as? DetailViewController {
+			if let content = sender as? String {
+				desVC.content = content
+			}
+		}
 	}
 
 }
@@ -79,10 +75,11 @@ extension DynamicViewController: UITableViewDataSource {
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCellWithIdentifier("DynamicCell", forIndexPath: indexPath) as! DynamicCell
 		
 		let project = projects[indexPath.row]
-		cell.textLabel?.attributedText = makeAttributedString(title: project[0], subtitle: project[1])
+		cell.labelRowIndex.text = project[0]
+		cell.labelContent.text = project[1]
 		
 		if favorites.contains(indexPath.row) {
 			cell.editingAccessoryType = .Checkmark
@@ -167,7 +164,8 @@ extension DynamicViewController: UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		
+		tableView.deselectRowAtIndexPath(indexPath, animated: true)
+		performSegueWithIdentifier("ShowDetail", sender: projects[indexPath.row][1])
 	}
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

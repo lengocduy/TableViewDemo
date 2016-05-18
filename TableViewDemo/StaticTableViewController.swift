@@ -25,6 +25,8 @@ class StaticTableViewController: UITableViewController {
 		let labelFooter = UILabel()
 		labelFooter.text = "Table Footer View"
 		tableView.tableFooterView = labelFooter
+		
+		tableView.contentInset.top = 20
     }
 
 }
