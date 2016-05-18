@@ -35,6 +35,18 @@ class DynamicViewController: UIViewController {
 		
 		tableView.editing = true
 		tableView.allowsSelectionDuringEditing = true
+
+        let labelHeader = UILabel(frame: CGRect(origin: CGPointZero, size: CGSize(width: tableView.frame.width, height: 50)))
+        labelHeader.textAlignment = .Center
+        labelHeader.backgroundColor = UIColor.greenColor()
+        labelHeader.text = "Demo TableView Header"
+        tableView.tableHeaderView = labelHeader
+
+        let labelFooter = UILabel(frame: CGRect(origin: CGPointZero, size: CGSize(width: tableView.frame.width, height: 50)))
+        labelFooter.textAlignment = .Center
+        labelFooter.backgroundColor = UIColor.greenColor()
+        labelFooter.text = "Demo TableView Footer"
+        tableView.tableFooterView = labelFooter
 	}
 
 	func makeAttributedString(title title: String, subtitle: String) -> NSAttributedString {
@@ -59,7 +71,7 @@ class DynamicViewController: UIViewController {
 
 extension DynamicViewController: UITableViewDataSource {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return 1
+		return 2
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,7 +92,11 @@ extension DynamicViewController: UITableViewDataSource {
 		
 		return cell
 	}
-	
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Section \(section)"
+    }
+
 	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
 		if favorites.contains(indexPath.row) {
 			return .Delete
@@ -153,7 +169,11 @@ extension DynamicViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		
 	}
-	
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////
