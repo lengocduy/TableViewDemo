@@ -10,10 +10,58 @@ import UIKit
 
 class DynamicViewController: UIViewController {
 
+	@IBOutlet var tableView: UITableView!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
 	}
 
 }
 
+////////////////////////////////////////////////////////////////////////////
+
+
+// MARK: UITab
+////////////////////////////////////////////////////////////////////////////
+
+extension DynamicViewController: UITableViewDataSource {
+	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return 1
+	}
+	
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+		
+		cell.textLabel?.text = "Text \n \n \(indexPath.row)"
+		
+		return cell
+	}
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+// MARK: UIApplicationDelegate
+////////////////////////////////////////////////////////////////////////////
+
+extension DynamicViewController: UITableViewDelegate {
+	func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+		return UITableViewAutomaticDimension
+	}
+	
+	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+		return 20
+	}
+	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+	}
+	
+}
+
+////////////////////////////////////////////////////////////////////////////
