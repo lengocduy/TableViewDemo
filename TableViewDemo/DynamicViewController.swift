@@ -55,7 +55,7 @@ extension DynamicViewController: UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-		return 20
+		return UITableViewAutomaticDimension
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
