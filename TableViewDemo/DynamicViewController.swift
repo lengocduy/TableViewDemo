@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import MobileCoreServices
+import CoreSpotlight
 
 class DynamicViewController: UIViewController {
 
 	@IBOutlet var tableView: UITableView!
 	var projects = [[String]]()
+	var favorites = [Int]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -24,6 +27,14 @@ class DynamicViewController: UIViewController {
 		projects.append(["Project 6: Auto Layout", "Get to grips with Auto Layout using practical examples and code"])
 		projects.append(["Project 7: Whitehouse Petitions", "JSON, NSData, UITabBarController"])
 		projects.append(["Project 8: 7 Swifty Words", "addTarget(), enumerate(), countElements(), find(), join(), property observers, range operators."])
+		
+		let defaults = NSUserDefaults.standardUserDefaults()
+		if let savedFavorites = defaults.objectForKey("favorites") as? [Int] {
+			favorites = savedFavorites
+		}
+		
+		tableView.editing = true
+		tableView.allowsSelectionDuringEditing = true
 	}
 
 	func makeAttributedString(title title: String, subtitle: String) -> NSAttributedString {
@@ -61,7 +72,65 @@ extension DynamicViewController: UITableViewDataSource {
 		let project = projects[indexPath.row]
 		cell.textLabel?.attributedText = makeAttributedString(title: project[0], subtitle: project[1])
 		
+		if favorites.contains(indexPath.row) {
+			cell.editingAccessoryType = .Checkmark
+		} else {
+			cell.editingAccessoryType = .None
+		}
+		
 		return cell
+	}
+	
+	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+		if favorites.contains(indexPath.row) {
+			return .Delete
+		} else {
+			return .Insert
+		}
+	}
+	
+	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+		if editingStyle == .Insert {
+			favorites.append(indexPath.row)
+			indexItem(indexPath.row)
+		} else {
+			if let index = favorites.indexOf(indexPath.row) {
+				favorites.removeAtIndex(index)
+				deindexItem(indexPath.row)
+			}
+		}
+		
+		let defaults = NSUserDefaults.standardUserDefaults()
+		defaults.setObject(favorites, forKey: "favorites")
+		
+		tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+	}
+	
+	func indexItem(which: Int) {
+		let project = projects[which]
+		
+		let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+		attributeSet.title = project[0]
+		attributeSet.contentDescription = project[1]
+		
+		let item = CSSearchableItem(uniqueIdentifier: "\(which)", domainIdentifier: "com.hackingwithswift", attributeSet: attributeSet)
+		CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item]) { (error: NSError?) -> Void in
+			if let error = error {
+				print("Indexing error: \(error.localizedDescription)")
+			} else {
+				print("Search item successfully indexed!")
+			}
+		}
+	}
+	
+	func deindexItem(which: Int) {
+		CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers(["\(which)"]) { (error: NSError?) -> Void in
+			if let error = error {
+				print("Deindexing error: \(error.localizedDescription)")
+			} else {
+				print("Search item successfully removed!")
+			}
+		}
 	}
 }
 
