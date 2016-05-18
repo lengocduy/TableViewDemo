@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -54,20 +56,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="76.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xG-c9-Le3">
-                                                    <rect key="frame" x="8" y="37" width="304" height="31.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="LzF-G4-da5"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="LzF-G4-da5"/>
-                                                        </mask>
-                                                    </variation>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBL-Mc-xMa">
                                                     <rect key="frame" x="144" y="8" width="32.5" height="21"/>
                                                     <constraints>
@@ -77,15 +65,37 @@
                                                     <color key="textColor" red="1" green="0.42258431217231229" blue="0.23759458339156436" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xG-c9-Le3">
+                                                    <rect key="frame" x="80" y="37" width="232" height="31.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_user_1" translatesAutoresizingMaskIntoConstraints="NO" id="G4K-kQ-dh9">
+                                                    <rect key="frame" x="8" y="14" width="50" height="50"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="Hjr-LB-lFI"/>
+                                                        <constraint firstAttribute="width" secondItem="G4K-kQ-dh9" secondAttribute="height" multiplier="1:1" id="xby-gW-Xgm"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="G4K-kQ-dh9" firstAttribute="centerY" secondItem="gvQ-p4-MHR" secondAttribute="centerY" id="0Eb-ad-d9c"/>
                                                 <constraint firstAttribute="bottom" secondItem="2xG-c9-Le3" secondAttribute="bottom" constant="8" id="CWx-DZ-7ln"/>
+                                                <constraint firstItem="G4K-kQ-dh9" firstAttribute="leading" secondItem="gvQ-p4-MHR" secondAttribute="leadingMargin" id="Khg-Rc-uoz"/>
+                                                <constraint firstAttribute="bottom" secondItem="G4K-kQ-dh9" secondAttribute="bottom" priority="750" constant="16" id="SFj-zl-9DO"/>
                                                 <constraint firstItem="yBL-Mc-xMa" firstAttribute="centerX" secondItem="gvQ-p4-MHR" secondAttribute="centerX" id="UqT-Pf-6KO"/>
                                                 <constraint firstAttribute="trailing" secondItem="2xG-c9-Le3" secondAttribute="trailing" constant="8" id="Vc7-Hb-wVd"/>
                                                 <constraint firstItem="yBL-Mc-xMa" firstAttribute="top" secondItem="gvQ-p4-MHR" secondAttribute="top" constant="8" id="itu-Fh-Uf7"/>
-                                                <constraint firstItem="2xG-c9-Le3" firstAttribute="leading" secondItem="gvQ-p4-MHR" secondAttribute="leading" constant="8" id="qW7-Tt-Mf4"/>
+                                                <constraint firstItem="2xG-c9-Le3" firstAttribute="leading" secondItem="gvQ-p4-MHR" secondAttribute="leading" constant="80" id="qW7-Tt-Mf4"/>
                                                 <constraint firstItem="2xG-c9-Le3" firstAttribute="top" secondItem="yBL-Mc-xMa" secondAttribute="bottom" constant="8" id="yQX-RS-8WH"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="SFj-zl-9DO"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="labelContent" destination="2xG-c9-Le3" id="o9C-lG-Anu"/>
@@ -475,4 +485,7 @@
             <point key="canvasLocation" x="166" y="-277"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ico_user_1" width="15" height="16"/>
+    </resources>
 </document>
